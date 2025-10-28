@@ -1,43 +1,35 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ro">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Kagurabachi - Capitolul 1</title>
-  <link rel="stylesheet" href="../../styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kagurabachi - Capitolul 1</title>
+<link rel="stylesheet" href="../../style.css">
 </head>
 <body>
-  <div class="reader-wrap">
-    <div class="reader-top">
-      <div>
-        <a class="btn" href="/">⟵ Înapoi la serii</a>
-        <span class="meta">Kagurabachi • Capitolul 1</span>
-      </div>
-      <div class="reader-controls">
-        <button id="btn-prev" class="btn">⬅️ Pagina anterioară</button>
-        <div id="page-num" class="meta">—</div>
-        <button id="btn-next" class="btn">Următoarea pagină ➡️</button>
-      </div>
-    </div>
+<div class="reader-wrap">
+<img id="reader-img" class="reader-img" alt="Pagina manga">
+</div>
 
-    <div class="reader-stage">
-      <img id="reader-img" class="reader-img" alt="Pagina manga">
-    </div>
-  </div>
 
-  <!-- Configurare capitol -->
-  <script>
-    window._reader = {
-      basePath: './images/',   // folderul local cu imaginile
-      totalPages: 16,          // modifică în funcție de câte imagini ai
-      filePrefix: "PAG-",
-      fileExtension: ".png",
-      seriesName: 'Kagurabachi',
-      chapterName: 'Capitolul 1 - Misiunea'
-    }
-  </script>
-  <script src="../../reader.js"></script>
+<div class="reader-footer">
+<div class="footer-left">
+<span id="page-indicator">1 / 16</span>
+</div>
+<div class="footer-right">
+<input type="range" id="page-slider">
+</div>
+</div>
+
+
+<script>
+window._reader={
+basePath:'./images/',
+filePrefix:'PAG-',
+fileExtension:'.png',
+totalPages:16
+}
+</script>
+<script src="../../reader.js"></script>
 </body>
 </html>
-
-

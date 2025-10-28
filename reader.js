@@ -1,70 +1,84 @@
-// reader.js — folosit în paginile capitolului
-// Fiecare fișier capitol trebuie să includă aceste variabile:
-// window._reader = {
-// basePath: './images/', // calea relativă la imagini
-// totalPages: 10, // nr. total de imagini (1..N)
-// seriesName: 'One Piece',
-// chapterName: 'Capitolul 1'
-// }
-
-
 (function(){
-function $(s){return document.querySelector(s)}
-function $all(s){return Array.from(document.querySelectorAll(s))}
-
-
 if(!window._reader) return
+
+
 const basePath = window._reader.basePath || './images/'
 const total = window._reader.totalPages || 1
+const prefix = window._reader.filePrefix || ''
+const ext = window._reader.fileExtension || '.png'
+
+
 let page = parseInt(localStorage.getItem(location.pathname+'_page')) || 1
 if(page < 1) page = 1
 if(page > total) page = total
 
 
-const imgEl = $('#reader-img')
-const pageNumEl = $('#page-num')
-const prevBtn = $('#btn-prev')
-const nextBtn = $('#btn-next')
+const imgEl = document.getElementById('reader-img')
+const pageIndicator = document.getElementById('page-indicator')
+const slider = document.getElementById('page-slider')
+const toggleBtn = document.getElementById('toggle-mode')
+let verticalMode = false
+let halfShown = false
 
 
 function update(){
-imgEl.src = basePath + page + '.jpg'
-pageNumEl.textContent = page + ' / ' + total
-prevBtn.disabled = page <= 1
-nextBtn.disabled = page >= total
-// salvăm poziția curentă pentru capitol
+imgEl.src = basePath + prefix + page + ext
 localStorage.setItem(location.pathname+'_page', page)
+if(pageIndicator) pageIndicator.textContent = page + ' / ' + total
+if(slider) slider.value = page
+if(verticalMode){
+halfShown = false
+imgEl.style.objectPosition = 'right top'
+} else {
+imgEl.style.objectPosition = 'center top'
+imgEl.style.objectFit = 'contain'
+}
 }
 
 
-function go(n){
-page = Math.min(total, Math.max(1, n))
-update()
+function go(n){ page = Math.min(total, Math.max(1, n)); update(); }
+
+
+function clickNext(){
+if(verticalMode && !halfShown){
+halfShown = true
+imgEl.style.objectPosition = 'left top'
+} else { go(page+1) }
 }
 
 
-prevBtn.addEventListener('click', ()=> go(page-1))
-nextBtn.addEventListener('click', ()=> go(page+1))
-document.addEventListener('keydown', (e)=>{
-if(e.key === 'ArrowLeft') prevBtn.click()
-if(e.key === 'ArrowRight') nextBtn.click()
+function clickPrev(){
+if(verticalMode && halfShown){
+halfShown = false
+imgEl.style.objectPosition = 'right top'
+} else { go(page-1) }
+}
+
+
+document.addEventListener('keydown', e=>{ if(e.key==='ArrowLeft') clickPrev(); if(e.key==='ArrowRight') clickNext(); })
+imgEl.addEventListener('click', e=>{ const rect=imgEl.getBoundingClientRect(); const x=e.clientX-rect.left; x<rect.width/2?clickPrev():clickNext(); })
+
+
+if(slider){ slider.min=1; slider.max=total; slider.value=page; slider.addEventListener('input', ()=>go(parseInt(slider.value))); }
+if(toggleBtn){
+toggleBtn.addEventListener('click', ()=>{
+verticalMode=!verticalMode
+if(verticalMode){
+document.body.classList.add('vertical-mode')
+toggleBtn.textContent='Mod Orizontal'
+halfShown=false
+imgEl.style.objectFit='none'
+imgEl.style.objectPosition='right top'
+} else {
+document.body.classList.remove('vertical-mode')
+toggleBtn.textContent='Mod Vertical'
+imgEl.style.objectFit='contain'
+imgEl.style.objectPosition='center top'
+}
 })
+}
 
 
-// click pe imagine -> next
-imgEl.addEventListener('click', ()=> {
-if(page < total) go(page+1)
-})
-
-
-// preload next image
-imgEl.addEventListener('load', ()=>{
-const n = page + 1
-if(n <= total){ const p = new Image(); p.src = basePath + n + '.jpg' }
-})
-
-
+imgEl.addEventListener('load', ()=>{ const n=page+1; if(n<=total){ const p=new Image(); p.src=basePath+prefix+n+ext; } })
 update()
-
-
-})()
+})();
