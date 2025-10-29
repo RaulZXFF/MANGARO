@@ -18,8 +18,10 @@ let verticalMode = false
 let halfShown = false
 
 function update(){
-  // ✅ ordinea normală a imaginilor
-  imgEl.src = basePath + prefix + page + ext
+  // 🧠 inversăm ordinea fișierelor: PAG-1 = ultima, PAG-total = prima
+  const displayPage = total - page + 1
+  imgEl.src = basePath + prefix + displayPage + ext
+
   localStorage.setItem(location.pathname + '_page', page)
   if(pageIndicator) pageIndicator.textContent = page + ' / ' + total
   if(slider) slider.value = page
@@ -43,8 +45,8 @@ function clickNext(){
     halfShown = true
     imgEl.style.objectPosition = 'left top'
   } else { 
-    // 👉 click dreapta = pagina anterioară (manga style)
-    go(page - 1) 
+    // 👉 click dreapta = merge înainte (manga style)
+    go(page + 1) 
   }
 }
 
@@ -53,14 +55,14 @@ function clickPrev(){
     halfShown = false
     imgEl.style.objectPosition = 'right top'
   } else { 
-    // 👈 click stânga = pagina următoare
-    go(page + 1) 
+    // 👈 click stânga = merge înapoi
+    go(page - 1) 
   }
 }
 
 document.addEventListener('keydown', e => { 
-  if(e.key === 'ArrowLeft') clickNext();   // Left → next page (manga style)
-  if(e.key === 'ArrowRight') clickPrev();  // Right → previous page
+  if(e.key === 'ArrowLeft') clickNext();   // Left → next (manga style)
+  if(e.key === 'ArrowRight') clickPrev();  // Right → previous
 })
 
 imgEl.addEventListener('click', e => { 
@@ -69,7 +71,7 @@ imgEl.addEventListener('click', e => {
   x < rect.width / 2 ? clickNext() : clickPrev(); 
 })
 
-// ✅ slider: dreapta = început
+// ✅ slider: dreapta = început (page 1)
 if(slider){
   slider.min = 1
   slider.max = total
@@ -103,7 +105,8 @@ imgEl.addEventListener('load', () => {
   const n = page + 1
   if(n <= total){ 
     const p = new Image()
-    p.src = basePath + prefix + n + ext 
+    const preloadPage = total - n + 1
+    p.src = basePath + prefix + preloadPage + ext 
   } 
 })
 
