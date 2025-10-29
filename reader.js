@@ -18,12 +18,14 @@ let verticalMode = false
 let halfShown = false
 
 function update(){
-  // inversăm ordinea paginilor (pagina 1 este imaginea total.png)
   const displayPage = total - page + 1
   imgEl.src = basePath + prefix + displayPage + ext
   localStorage.setItem(location.pathname + '_page', page)
   if(pageIndicator) pageIndicator.textContent = page + ' / ' + total
-  if(slider) slider.value = total - page + 1
+
+  // slider-ul e inversat (dreapta = page 1)
+  if(slider) slider.value = page
+
   if(verticalMode){
     halfShown = false
     imgEl.style.objectPosition = 'right top'
@@ -56,31 +58,29 @@ function clickPrev(){
   }
 }
 
-// tastele ← și → 
 document.addEventListener('keydown', e => { 
-  if(e.key === 'ArrowLeft') clickNext();   // manga: stânga → pagină următoare
-  if(e.key === 'ArrowRight') clickPrev();  // dreapta → pagină anterioară
+  if(e.key === 'ArrowLeft') clickNext();
+  if(e.key === 'ArrowRight') clickPrev();
 })
 
-// click mouse (stânga = next, dreapta = prev)
 imgEl.addEventListener('click', e => { 
   const rect = imgEl.getBoundingClientRect(); 
   const x = e.clientX - rect.left; 
   x < rect.width / 2 ? clickNext() : clickPrev(); 
 })
 
-// slider inversat
+// slider inversat logic (dreapta = 1)
 if(slider){
   slider.min = 1
   slider.max = total
-  slider.value = total - page + 1
+  slider.step = 1
+  slider.dir = 'rtl' // 👈 asta inversează direcția vizuală
+  slider.value = page
   slider.addEventListener('input', () => {
-    const newPage = total - parseInt(slider.value) + 1
-    go(newPage)
+    go(parseInt(slider.value))
   })
 }
 
-// buton mod vertical/orizontal
 if(toggleBtn){
   toggleBtn.addEventListener('click', () => {
     verticalMode = !verticalMode
@@ -99,7 +99,6 @@ if(toggleBtn){
   })
 }
 
-// preîncărcare imagine următoare
 imgEl.addEventListener('load', () => { 
   const n = page + 1
   if(n <= total){ 
