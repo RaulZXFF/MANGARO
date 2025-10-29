@@ -6,8 +6,8 @@ const total = window._reader.totalPages || 1
 const prefix = window._reader.filePrefix || ''
 const ext = window._reader.fileExtension || '.png'
 
-// 👇 pornim de la ultima imagine (prima pagină reală manga)
-let page = parseInt(localStorage.getItem(location.pathname+'_page')) || total
+// pornim normal (de la pagina 1)
+let page = parseInt(localStorage.getItem(location.pathname+'_page')) || 1
 if(page < 1) page = 1
 if(page > total) page = total
 
@@ -19,7 +19,7 @@ let verticalMode = false
 let halfShown = false
 
 function update(){
-  // 🧠 inversăm ordinea fișierelor: PAG-1 = ultima, PAG-total = prima
+  // 🧠 inversăm ordinea imaginilor (PAG-28 devine pagina 1)
   const displayPage = total - page + 1
   imgEl.src = basePath + prefix + displayPage + ext
 
@@ -70,12 +70,10 @@ imgEl.addEventListener('click', e => {
   x < rect.width / 2 ? clickNext() : clickPrev(); 
 })
 
-// ✅ slider: dreapta = început (page 1)
 if(slider){
   slider.min = 1
   slider.max = total
   slider.step = 1
-  slider.dir = 'rtl'
   slider.value = page
   slider.addEventListener('input', () => {
     go(parseInt(slider.value))
