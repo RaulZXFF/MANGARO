@@ -56,10 +56,10 @@ imgEl.style.objectPosition = 'right top'
 
 
 document.addEventListener('keydown', e=>{ if(e.key==='ArrowLeft') clickPrev(); if(e.key==='ArrowRight') clickNext(); })
-imgEl.addEventListener('click', e=>{ const rect=imgEl.getBoundingClientRect(); const x=e.clientX-rect.left; x<rect.width/2?clickPrev():clickNext(); })
+imgEl.addEventListener('click', e=>{ const rect=imgEl.getBoundingClientRect(); const x=e.clientX-rect.left; x<rect.width/2?clickNext():clickPrev(); })
 
 
-if(slider){ slider.min=1; slider.max=total; slider.value=page; slider.addEventListener('input', ()=>go(parseInt(slider.value))); }
+if(slider){ slider.min=1; slider.max=total; slider.value=total - page + 1; slider.addEventListener('input', ()=>{const newPage =total - parseInt(slider.value) + 1; go(newPage);}); }
 if(toggleBtn){
 toggleBtn.addEventListener('click', ()=>{
 verticalMode=!verticalMode
@@ -81,4 +81,5 @@ imgEl.style.objectPosition='center top'
 
 imgEl.addEventListener('load', ()=>{ const n=page+1; if(n<=total){ const p=new Image(); p.src=basePath+prefix+n+ext; } })
 update()
+
 })();
