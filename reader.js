@@ -19,13 +19,13 @@ let verticalMode = false
 let halfShown = false
 
 function update(){
-  // 🧠 inversăm ordinea imaginilor (PAG-28 devine pagina 1)
+  // inversăm ordinea imaginilor (PAG-28 devine pagina 1)
   const displayPage = total - page + 1
   imgEl.src = basePath + prefix + displayPage + ext
 
   localStorage.setItem(location.pathname + '_page', page)
-  if(pageIndicator) pageIndicator.textContent = page + ' / ' + total
-  if(slider) slider.value = page
+  if(pageIndicator) pageIndicator.textContent = displayPage + ' / ' + total
+  if(slider) slider.value = displayPage
 
   if(verticalMode){
     halfShown = false
@@ -59,24 +59,29 @@ function clickPrev(){
   }
 }
 
+// tastatură: stil manga (dreapta → înapoi)
 document.addEventListener('keydown', e => { 
-  if(e.key === 'ArrowLeft') clickNext();   // Left → next (manga style)
-  if(e.key === 'ArrowRight') clickPrev();  // Right → previous
+  if(e.key === 'ArrowLeft') clickPrev();   // stânga → înapoi
+  if(e.key === 'ArrowRight') clickNext();  // dreapta → înainte
 })
 
+// click imagine: stil manga (clic dreapta → înainte)
 imgEl.addEventListener('click', e => { 
   const rect = imgEl.getBoundingClientRect(); 
   const x = e.clientX - rect.left; 
-  x < rect.width / 2 ? clickNext() : clickPrev(); 
+  // clic stânga → prev, clic dreapta → next
+  x < rect.width / 2 ? clickPrev() : clickNext(); 
 })
 
+// slider sincronizat cu ordinea inversă
 if(slider){
   slider.min = 1
   slider.max = total
   slider.step = 1
-  slider.value = page
+  slider.value = total - page + 1
   slider.addEventListener('input', () => {
-    go(parseInt(slider.value))
+    const visualValue = parseInt(slider.value)
+    go(total - visualValue + 1)
   })
 }
 
@@ -98,6 +103,7 @@ if(toggleBtn){
   })
 }
 
+// preîncarcă următoarea imagine
 imgEl.addEventListener('load', () => { 
   const n = page + 1
   if(n <= total){ 
