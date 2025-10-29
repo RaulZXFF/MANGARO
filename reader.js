@@ -67,7 +67,7 @@ document.addEventListener('keydown', e => {
 imgEl.addEventListener('click', e => { 
   const rect = imgEl.getBoundingClientRect(); 
   const x = e.clientX - rect.left; 
-  x < rect.width / 2 ? clickPrev() : clickNext(); 
+  x < rect.width / 2 ? clickNext() : clickPrev(); 
 })
 
 if(slider){
