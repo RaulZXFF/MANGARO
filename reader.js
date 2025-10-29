@@ -6,7 +6,8 @@ const total = window._reader.totalPages || 1
 const prefix = window._reader.filePrefix || ''
 const ext = window._reader.fileExtension || '.png'
 
-let page = parseInt(localStorage.getItem(location.pathname+'_page')) || 1
+// 👇 pornim de la ultima imagine (prima pagină reală manga)
+let page = parseInt(localStorage.getItem(location.pathname+'_page')) || total
 if(page < 1) page = 1
 if(page > total) page = total
 
@@ -45,7 +46,6 @@ function clickNext(){
     halfShown = true
     imgEl.style.objectPosition = 'left top'
   } else { 
-    // 👉 click dreapta = merge înainte (manga style)
     go(page + 1) 
   }
 }
@@ -55,7 +55,6 @@ function clickPrev(){
     halfShown = false
     imgEl.style.objectPosition = 'right top'
   } else { 
-    // 👈 click stânga = merge înapoi
     go(page - 1) 
   }
 }
