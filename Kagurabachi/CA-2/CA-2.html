@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kagurabachi - Capitolul 1</title>
+<link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+<div class="reader-wrap">
+<img id="reader-img" class="reader-img" alt="Pagina manga">
+</div>
+
+
+<div class="reader-footer">
+<div class="footer-left">
+<span id="page-indicator">1 / 16</span>
+</div>
+<div class="footer-right">
+<input type="range" id="page-slider">
+</div>
+</div>
+
+
+<script>
+window._reader={
+basePath:'./images/',
+filePrefix:'PAG-',
+fileExtension:'.png',
+totalPages:16
+}
+</script>
+<script src="../../reader.js"></script>
+</body>
+</html>
