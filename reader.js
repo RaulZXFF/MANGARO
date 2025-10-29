@@ -18,12 +18,10 @@ let verticalMode = false
 let halfShown = false
 
 function update(){
-  const displayPage = total - page + 1
-  imgEl.src = basePath + prefix + displayPage + ext
+  // ✅ ordinea normală a imaginilor
+  imgEl.src = basePath + prefix + page + ext
   localStorage.setItem(location.pathname + '_page', page)
   if(pageIndicator) pageIndicator.textContent = page + ' / ' + total
-
-  // slider-ul e inversat (dreapta = page 1)
   if(slider) slider.value = page
 
   if(verticalMode){
@@ -45,7 +43,8 @@ function clickNext(){
     halfShown = true
     imgEl.style.objectPosition = 'left top'
   } else { 
-    go(page + 1) 
+    // 👉 click dreapta = pagina anterioară (manga style)
+    go(page - 1) 
   }
 }
 
@@ -54,13 +53,14 @@ function clickPrev(){
     halfShown = false
     imgEl.style.objectPosition = 'right top'
   } else { 
-    go(page - 1) 
+    // 👈 click stânga = pagina următoare
+    go(page + 1) 
   }
 }
 
 document.addEventListener('keydown', e => { 
-  if(e.key === 'ArrowLeft') clickNext();
-  if(e.key === 'ArrowRight') clickPrev();
+  if(e.key === 'ArrowLeft') clickNext();   // Left → next page (manga style)
+  if(e.key === 'ArrowRight') clickPrev();  // Right → previous page
 })
 
 imgEl.addEventListener('click', e => { 
@@ -69,12 +69,12 @@ imgEl.addEventListener('click', e => {
   x < rect.width / 2 ? clickNext() : clickPrev(); 
 })
 
-// slider inversat logic (dreapta = 1)
+// ✅ slider: dreapta = început
 if(slider){
   slider.min = 1
   slider.max = total
   slider.step = 1
-  slider.dir = 'rtl' // 👈 asta inversează direcția vizuală
+  slider.dir = 'rtl'
   slider.value = page
   slider.addEventListener('input', () => {
     go(parseInt(slider.value))
@@ -103,8 +103,7 @@ imgEl.addEventListener('load', () => {
   const n = page + 1
   if(n <= total){ 
     const p = new Image()
-    const preloadPage = total - n + 1
-    p.src = basePath + prefix + preloadPage + ext 
+    p.src = basePath + prefix + n + ext 
   } 
 })
 
