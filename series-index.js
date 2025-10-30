@@ -102,31 +102,40 @@ const chapters = [
   { slug: 'CA-98', title: '#098 - Kagurabachi' },
 ];
 
-// === Interfață ===
-const container = document.getElementById("chapters-list");
-const input = document.getElementById("chapterSearch");
+const listContainer = document.getElementById("chapters-list");
+const searchInput = document.getElementById("chapterSearch");
+const filterToggle = document.getElementById("filterUnread");
 
-function renderChapters(filter = "") {
-  const stored = JSON.parse(localStorage.getItem("mangaro.readChapters") || "[]");
-  const filtered = chapters.filter(
-    (c) =>
+function renderChapters(filter = "", showUnreadOnly = false) {
+  const read = JSON.parse(localStorage.getItem("mangaro.readChapters") || "[]");
+  const filtered = chapters.filter((c) => {
+    const matchesText =
       c.title.toLowerCase().includes(filter.toLowerCase()) ||
-      c.slug.toLowerCase().includes(filter.toLowerCase())
-  );
+      c.slug.toLowerCase().includes(filter.toLowerCase());
+    const matchesUnread = showUnreadOnly ? !read.includes(c.slug) : true;
+    return matchesText && matchesUnread;
+  });
+
   if (!filtered.length) {
-    container.innerHTML = `<p class="no-results">Niciun capitol găsit.</p>`;
+    listContainer.innerHTML = `<p class="no-results">Niciun capitol găsit.</p>`;
     return;
   }
-  container.innerHTML = filtered
+
+  listContainer.innerHTML = filtered
     .map(
       (c) => `
-      <a class="chapter-card ${stored.includes(c.slug) ? "read" : ""}" href="./${c.slug}/${c.slug}.html">
+      <a class="chapter-card ${read.includes(c.slug) ? "read" : ""}" href="./${c.slug}/${c.slug}.html">
         <strong>${c.title}</strong>
-        <span>${stored.includes(c.slug) ? "✔️ Citit" : ""}</span>
+        <span>${read.includes(c.slug) ? "✔️ Citit" : ""}</span>
       </a>`
     )
     .join("");
 }
 
-input.addEventListener("input", (e) => renderChapters(e.target.value));
-renderChapters();
+// === Interacțiuni ===
+function refreshList() {
+  renderChapters(searchInput.value, filterToggle.checked);
+}
+
+searchInput.addEventListener("input", refreshList);
+filterToggle.addEventListener("change", refreshList);
