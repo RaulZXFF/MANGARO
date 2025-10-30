@@ -6,7 +6,9 @@
 <title>KAGURABACHI</title>
 <link rel="stylesheet" href="../style.css">
 <link rel="stylesheet" href="../style-upgrade.css">
+
 <style>
+  /* === Căsuța de căutare === */
   .search-box {
     display: flex;
     justify-content: center;
@@ -28,7 +30,7 @@
     background: rgba(255,255,255,0.12);
     box-shadow: 0 0 8px rgba(199,27,27,0.4);
   }
-  <style>
+
   /* === Cutia capitolelor scrollabile === */
   .chapters-box {
     background: rgba(255,255,255,0.05);
@@ -36,7 +38,7 @@
     border-radius: 16px;
     width: 90%;
     max-width: 850px;
-    height: 550px; /* poți ajusta */
+    height: 550px;
     margin: 0 auto 40px;
     padding: 16px 20px;
     overflow-y: auto;
@@ -45,7 +47,7 @@
     box-shadow: 0 0 25px rgba(0,0,0,0.3);
   }
 
-  /* Stil pentru scroll bar */
+  /* Scrollbar personalizat */
   .chapters-box::-webkit-scrollbar {
     width: 8px;
   }
@@ -60,7 +62,8 @@
   .chapters-box::-webkit-scrollbar-thumb:hover {
     background: rgba(199,27,27,0.7);
   }
-  /* Grila din interiorul cutiei */
+
+  /* === Grila capitolelor === */
   .chapters-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -92,8 +95,8 @@
     margin-top: 20px;
     font-style: italic;
   }
-</style>
-<style>
+
+  /* === Filtru === */
   .filter-box {
     text-align: center;
     margin-bottom: 25px;
@@ -112,6 +115,26 @@
   .chapter-card.read {
     opacity: 0.75;
   }
+
+  /* === Fade subtil sus/jos pentru cutia scrollabilă === */
+  .chapters-box::before,
+  .chapters-box::after {
+    content: "";
+    position: sticky;
+    left: 0;
+    right: 0;
+    height: 25px;
+    pointer-events: none;
+    z-index: 5;
+  }
+  .chapters-box::before {
+    top: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+  }
+  .chapters-box::after {
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+  }
 </style>
 </head>
 
@@ -123,37 +146,34 @@
     </header>
 
     <main class="landing-shell__column landing-shell__column--center" role="main">
-  <h2 class="landing-shell__title">Kagurabachi</h2>
-  <p class="landing-shell__subtitle">Capitole disponibile</p>
+      <h2 class="landing-shell__title">Kagurabachi</h2>
+      <p class="landing-shell__subtitle">Capitole disponibile</p>
 
-  <!-- 🔍 Căutare -->
-<div class="search-box">
-  <input type="text" id="chapterSearch" placeholder="Caută după nume sau număr...">
-</div>
+      <!-- 🔍 Căutare -->
+      <div class="search-box">
+        <input type="text" id="chapterSearch" placeholder="Caută după nume sau număr...">
+      </div>
 
-<!-- ✅ Filtru -->
-<div class="filter-box">
-  <label class="filter-label">
-    <input type="checkbox" id="filterUnread">
-    Afișează doar capitolele necitite
-  </label>
-</div>
+      <!-- ✅ Filtru -->
+      <div class="filter-box">
+        <label class="filter-label">
+          <input type="checkbox" id="filterUnread">
+          Afișează doar capitolele necitite
+        </label>
+      </div>
 
-<!-- 📜 Cutie scrollabilă -->
-<div class="chapters-box">
-  <div id="chapters-list" class="chapters-grid"></div>
-</div>
-</main>
+      <!-- 📜 Cutie scrollabilă -->
+      <div class="chapters-box">
+        <div id="chapters-list" class="chapters-grid"></div>
+      </div>
+    </main>
 
     <aside class="landing-shell__column landing-shell__column--right">
       <small class="landing-shell__copyright">&copy; 2025 MANGARO &mdash; TXRROT</small>
     </aside>
   </div>
 
-  <!-- Scripturile existente -->
   <script src="../ui.js"></script>
-
-  <!-- Script nou pentru generare + căutare capitole -->
   <script src="../series-index.js"></script>
 </body>
 </html>
