@@ -1,6 +1,4 @@
 // === Kagurabachi - Lista Capitolelor + Căutare ===
-// Preia lista de capitole (copiată din ui.js)
-
 const chapters = [
   { slug: 'CA-1', title: '#001 - Misiunea' },
   { slug: 'CA-2', title: '#002 - Gramezi' },
@@ -124,18 +122,21 @@ function renderChapters(filter = "", showUnreadOnly = false) {
   listContainer.innerHTML = filtered
     .map(
       (c) => `
-      <a class="chapter-card ${read.includes(c.slug) ? "read" : ""}" href="./${c.slug}/${c.slug}.html">
-        <strong>${c.title}</strong>
-        <span>${read.includes(c.slug) ? "✔️ Citit" : ""}</span>
+      <a class="chapter-button ${read.includes(c.slug) ? "read" : ""}" href="./${c.slug}/${c.slug}.html">
+        ${c.title}
       </a>`
     )
     .join("");
 }
 
-// === Interacțiuni ===
 function refreshList() {
   renderChapters(searchInput.value, filterToggle.checked);
 }
 
 searchInput.addEventListener("input", refreshList);
 filterToggle.addEventListener("change", refreshList);
+
+// 🔥 Afișează capitolele imediat la încărcare
+document.addEventListener("DOMContentLoaded", () => {
+  renderChapters();
+});
