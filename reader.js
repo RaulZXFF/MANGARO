@@ -75,10 +75,4 @@ imgEl.addEventListener('load', () => {
 })
 
 update()
-
-// --- LOGO VERTICAL DOAR LA CITIRE ---
-const logo = document.createElement("div");
-logo.className = "vertical-logo";
-logo.textContent = "KAGURABACHI";
-document.body.appendChild(logo);
 })();

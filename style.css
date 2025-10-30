@@ -121,7 +121,10 @@ body.vertical-mode .reader-img {
   background: #555;
 }
 #page-slider {
-  width: 200px;
+  width: 500px;
+  position: fixed;
+  top: 30%;
+  left: 37%;
 }
 
 /* --- MENIU GLISANT --- */
@@ -166,15 +169,20 @@ body.vertical-mode .reader-img {
 }
 .slide-menu h3 {
   font-size: 18px;
-  margin-bottom: 12px;
+  margin-bottom: 5%;
   border-bottom: 1px solid rgba(255,255,255,0.1);
-  padding-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .slide-menu ul {
   list-style: none;
 }
 .slide-menu li {
   margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .slide-menu a {
   color: #fff;
@@ -189,8 +197,8 @@ body.vertical-mode .reader-img {
 /* --- PLAYER AUDIO GLOBAL --- */
 .music-player {
   position: fixed;
-  bottom: 12px;
-  right: 12px;
+  bottom: 5px;
+  right: 5px;
   background: rgba(20,20,20,0.9);
   border-radius: 10px;
   padding: 8px 12px;
@@ -203,10 +211,10 @@ body.vertical-mode .reader-img {
 }
 .music-player select {
   background: #111;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(182, 0, 0, 0.1);
   color: #fff;
   padding: 4px 8px;
-  border-radius: 6px;
+  border-radius: 10px;
   font-size: 14px;
 }
 .music-player audio {
@@ -216,8 +224,8 @@ body.vertical-mode .reader-img {
 /* --- LOGO VERTICAL --- */
 .vertical-logo {
   position: fixed;
-  left: 250px;
-  top: 50%;
+  left: 6%;
+  top: 82%;
   transform: translateY(-50%) rotate(-90deg);
   transform-origin: left top;
   opacity: 0;
@@ -226,15 +234,9 @@ body.vertical-mode .reader-img {
 }
 
 .vertical-logo img {
-  width: 550px; /* adjust as you like */
-  filter: drop-shadow(0 0 10px rgba(199,27,27,0.6));
+  width: 600px; /* adjust as you like */
+  filter: drop-shadow(0 0 5px rgba(199,27,27,0.6));
 }
 @keyframes logoFadeIn {
   to { opacity: 1; }
 }
-
-
-
-
-
-
