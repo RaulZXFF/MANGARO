@@ -127,13 +127,12 @@ function renderChapters(filter = "", showUnreadOnly = false) {
       </a>`
     )
     .join("");
-}
 
-// 🔥 Mic efect de fade la schimbarea listei
-listContainer.style.opacity = 0;
-setTimeout(() => {
-  listContainer.style.opacity = 1;
-}, 150);
+  // 🔥 Mic efect de fade la schimbarea listei
+  listContainer.style.opacity = 0;
+  setTimeout(() => {
+    listContainer.style.opacity = 1;
+  }, 150);
 }
 
 function refreshList() {
@@ -146,4 +145,21 @@ filterToggle.addEventListener("change", refreshList);
 // 🔥 Afișează capitolele imediat la încărcare
 document.addEventListener("DOMContentLoaded", () => {
   renderChapters();
+
+  // ✨ Bonus: efect "smooth inertia" la scroll
+  const scroller = document.querySelector(".chapters-box");
+  if (scroller) {
+    let lastY = 0;
+    let ticking = false;
+    scroller.addEventListener("scroll", () => {
+      lastY = scroller.scrollTop;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          scroller.style.scrollBehavior = "smooth";
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+  }
 });
