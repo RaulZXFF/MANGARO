@@ -183,6 +183,41 @@
         </ul>
       </div>`
     : `<p class="slide-menu__message">Capitolele vor fi disponibile în curând.</p>`;
+  // nu afișa submeniul de capitole dacă nu ești într-o serie
+const isSeriesPage = window.location.pathname.includes('/Kagurabachi/');
+if (!isSeriesPage) {
+  // elimină complet secțiunea „Capitole”
+  slideMenu.innerHTML = `
+    <div class="slide-menu__header">
+      <h3>MENIU</h3>
+      <button type="button" class="slide-menu__close" aria-label="Închide meniul">&times;</button>
+    </div>
+    <div class="slide-menu__body">
+      <section>
+        <ul class="slide-menu__section">${staticItems}</ul>
+      </section>
+    </div>
+  `;
+} else {
+  // aici păstrezi conținutul original cu capitolele
+  slideMenu.innerHTML = `
+    <div class="slide-menu__header">
+      <h3>MENIU</h3>
+      <button type="button" class="slide-menu__close" aria-label="Închide meniul">&times;</button>
+    </div>
+    <div class="slide-menu__body">
+      <section>
+        <ul class="slide-menu__section">${staticItems}</ul>
+      </section>
+      <section class="chapters-block">
+        <button type="button" class="chapters-toggle" data-action="toggle-chapters" aria-expanded="false">
+          Capitole
+        </button>
+        ${chaptersMarkup}
+      </section>
+    </div>
+  `;
+}
 
   slideMenu.innerHTML = `
     <div class="slide-menu__header">
