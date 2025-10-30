@@ -520,3 +520,52 @@ document.addEventListener("DOMContentLoaded", () => {
   const animationsEnabled = localStorage.getItem("mangaro.animations") !== "false";
   if (!animationsEnabled) document.body.classList.add("no-animations");
 });
+
+// === Buton meniu plutitor pentru modul citire ===
+document.addEventListener("DOMContentLoaded", () => {
+  const isReader = /CA-\d+/.test(window.location.pathname);
+  if (isReader) {
+    // Creează butonul plutitor
+    const btn = document.createElement("button");
+    btn.className = "reader-menu-btn";
+    btn.textContent = "☰ Meniu";
+    document.body.appendChild(btn);
+
+    // Creează overlay pentru meniu (doar o dată)
+    let overlay = document.querySelector(".reader-overlay");
+    if (!overlay) {
+      overlay = document.createElement("div");
+      overlay.className = "reader-overlay";
+      overlay.innerHTML = `
+        <div class="reader-menu">
+          <h3>Meniu capitol</h3>
+          <a href="../../kagurabachi/index.html">← Înapoi la capitole</a>
+          <hr>
+          <label><input type="checkbox" id="toggleAnimations"> Activează animațiile</label>
+        </div>`;
+      document.body.appendChild(overlay);
+    }
+
+    // Toggle meniu
+    btn.addEventListener("click", () => {
+      overlay.classList.toggle("open");
+    });
+
+    // Închide dacă apeși pe fundal
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) overlay.classList.remove("open");
+    });
+
+    // === Control pentru animații ===
+    const toggleAnimations = overlay.querySelector("#toggleAnimations");
+    const animationsEnabled = localStorage.getItem("mangaro.animations") !== "false";
+    if (toggleAnimations) {
+      toggleAnimations.checked = animationsEnabled;
+      toggleAnimations.addEventListener("change", (e) => {
+        const enabled = e.target.checked;
+        document.body.classList.toggle("no-animations", !enabled);
+        localStorage.setItem("mangaro.animations", enabled);
+      });
+    }
+  }
+});
