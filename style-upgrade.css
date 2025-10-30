@@ -1,0 +1,91 @@
+/* === THEME UPGRADES (safe override) ===================================== */
+
+/* 1) fundal cinematic lent */
+:root{
+  --accent: #c71b1b;
+  --muted: rgba(255,255,255,.55);
+}
+html,body{background: radial-gradient(1200px 800px at 20% 20%, #101318, #0b0d10 60%, #090b0e 100%);background-size: 300% 300%;animation: bgShift 30s ease infinite;}
+@keyframes bgShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+/* 2) titluri cu glow subtil */
+.landing-shell__title{
+  text-shadow: 0 0 10px rgba(199,27,27,.26);
+  animation: pulseGlow 4s ease-in-out infinite;
+}
+@keyframes pulseGlow{0%,100%{text-shadow:0 0 10px rgba(199,27,27,.26)}50%{text-shadow:0 0 22px rgba(199,27,27,.55)}}
+
+/* 3) micro-animatii pe item-urile de capitole din meniu */
+.slide-menu__link{
+  will-change: transform, box-shadow, background;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
+}
+.slide-menu__link:hover,
+.slide-menu__link:focus-visible{
+  transform: translateX(4px);
+  box-shadow: 0 0 10px rgba(199,27,27,.35);
+}
+
+/* 4) accent pe item activ si „citit” */
+.slide-menu__link.is-active{
+  position: relative;
+}
+.slide-menu__link.is-active::before{
+  content:"";
+  position:absolute;left:8px;top:50%;transform:translateY(-50%);
+  width:6px;height:6px;border-radius:50%;
+  box-shadow:0 0 10px var(--accent);
+  background: var(--accent);
+}
+.slide-menu__link.read{
+  color: rgba(255,255,255,.6);
+  background: rgba(255,255,255,.06);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+}
+
+/* 5) meniul – intrare mai „premium” + scrollbar fix */
+.slide-menu{overflow:hidden}
+.slide-menu.open{animation: menuSlideIn .4s cubic-bezier(.25,1,.5,1)}
+@keyframes menuSlideIn{from{right:-340px;opacity:0}to{right:0;opacity:1}}
+.slide-menu__body{overflow-y:auto;overflow-x:hidden;padding-bottom:36px}
+
+/* 6) toggle capitole – spacing si sagetica fină */
+.chapters-toggle{justify-content:flex-start;gap:8px}
+.chapters-toggle::after{
+  content:"";
+  width:6.5px;height:6.5px;
+  border-right:1.8px solid currentColor;border-bottom:1.8px solid currentColor;
+  transform:rotate(45deg);transition:transform .25s ease;margin-left:4px;
+}
+.chapters-toggle.is-open::after{transform:rotate(-135deg)}
+
+/* 7) lista capitole – acordeon fluid, fără scroll dublu */
+.chapters-list{max-height:0;opacity:0;overflow:hidden;transition:max-height .35s ease, opacity .3s ease;padding-right:0}
+.chapters-toggle.is-open + .chapters-list{max-height:60vh;opacity:1;overflow-y:auto;overflow-x:hidden;padding-right:4px}
+.chapters-list::-webkit-scrollbar{width:6px}
+.chapters-list::-webkit-scrollbar-thumb{background: rgba(199,27,27,.35);border-radius:999px}
+
+/* 8) bara de progres la citire (sus, discret) – numai când body are .vertical-mode */
+.read-progress{
+  position:fixed;left:0;top:0;height:3px;width:0;
+  background: linear-gradient(90deg, rgba(199,27,27,.9), rgba(255,255,255,.85));
+  z-index: 1200;box-shadow:0 0 12px rgba(199,27,27,.6);
+  transition: width .08s linear;pointer-events:none;
+}
+body:not(.vertical-mode) .read-progress{display:none}
+
+/* 9) control luminozitate – clase utilitare */
+[data-brightness="dim"]{filter:brightness(.85)}
+[data-brightness="bright"]{filter:brightness(1.15)}
+
+/* 10) butoane mici în setări (se potrivesc cu stilul tău) */
+.reader-setting__pill{
+  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  padding:6px 10px;border-radius:999px;
+  font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
+}
+.reader-setting__pill[aria-pressed="true"]{
+  background: rgba(199,27,27,.4);
+  border-color: rgba(199,27,27,.6);
+}
