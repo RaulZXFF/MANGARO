@@ -53,16 +53,28 @@
     }
   }
 
-  function update(newPage, opts = {}) {
-    const nextPage = Math.min(total, Math.max(1, newPage));
-    page = nextPage;
-    imgEl.src = basePath + prefix + page + ext;
-    setPageIndicator();
-    storePage();
-    if (!opts.silent) {
-      emitReaderState();
-    }
+function update(newPage, opts = {}) {
+  const nextPage = Math.min(total, Math.max(1, newPage));
+  page = nextPage;
+  imgEl.src = basePath + prefix + page + ext;
+  setPageIndicator();
+  storePage();
+
+  if (!opts.silent) {
+    emitReaderState();
   }
+
+  // 👇 dacă e ultima pagină, trimite evenimentul „capitol citit”
+  if (page === total) {
+    document.dispatchEvent(
+      new CustomEvent('mangaro:chapter-read', {
+        detail: {
+          slug: window.location.pathname.match(/CA-\d+/)?.[0] || null,
+        },
+      })
+    );
+  }
+}
 
   function preloadPrevious() {
     const prev = page - 1;
@@ -178,4 +190,5 @@
     getState: () => ({ page, total, verticalMode, rememberProgress }),
     setRememberProgress,
   };
+
 })();
