@@ -8,15 +8,18 @@
 <link rel="stylesheet" href="../style-upgrade.css">
 
 <style>
-  /* === Căsuța de căutare === */
-  .search-box {
+  /* === Căutare + Filtru === */
+  .search-filter-container {
     display: flex;
     justify-content: center;
-    margin: 20px 0 25px;
+    align-items: center;
+    gap: 12px;
+    margin: 25px auto 20px;
+    flex-wrap: wrap;
   }
+
   .search-box input {
-    width: 80%;
-    max-width: 400px;
+    width: 280px;
     padding: 10px 14px;
     border-radius: 8px;
     border: 1px solid rgba(255,255,255,0.15);
@@ -31,78 +34,8 @@
     box-shadow: 0 0 8px rgba(199,27,27,0.4);
   }
 
-  /* === Cutia capitolelor scrollabile === */
-  .chapters-box {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 16px;
-    width: 90%;
-    max-width: 850px;
-    height: 550px;
-    margin: 0 auto 40px;
-    padding: 16px 20px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    backdrop-filter: blur(6px);
-    box-shadow: 0 0 25px rgba(0,0,0,0.3);
-  }
-
-  /* Scrollbar personalizat */
-  .chapters-box::-webkit-scrollbar {
-    width: 8px;
-  }
-  .chapters-box::-webkit-scrollbar-track {
-    background: rgba(255,255,255,0.05);
-    border-radius: 10px;
-  }
-  .chapters-box::-webkit-scrollbar-thumb {
-    background: rgba(199,27,27,0.5);
-    border-radius: 10px;
-  }
-  .chapters-box::-webkit-scrollbar-thumb:hover {
-    background: rgba(199,27,27,0.7);
-  }
-
-  /* === Grila capitolelor === */
-  .chapters-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 12px;
-  }
-  .chapter-card {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 10px;
-    padding: 12px 16px;
-    color: #fff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-decoration: none;
-    transition: background 0.2s ease, transform 0.15s ease;
-  }
-  .chapter-card:hover {
-    background: rgba(199,27,27,0.3);
-    transform: translateY(-2px);
-  }
-  .chapter-card span {
-    font-size: 0.85rem;
-    opacity: 0.75;
-  }
-  .no-results {
-    text-align: center;
-    color: rgba(255,255,255,0.5);
-    margin-top: 20px;
-    font-style: italic;
-  }
-
-  /* === Filtru === */
-  .filter-box {
-    text-align: center;
-    margin-bottom: 25px;
-  }
   .filter-label {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: rgba(255,255,255,0.85);
     user-select: none;
     cursor: pointer;
@@ -112,11 +45,55 @@
     transform: scale(1.2);
     accent-color: #c71b1b;
   }
-  .chapter-card.read {
-    opacity: 0.75;
+
+  /* === Caseta capitolelor === */
+  .chapters-box {
+    width: 90%;
+    max-width: 500px;
+    height: 400px;
+    margin: 0 auto 50px;
+    padding-right: 10px;
+    overflow-y: auto;
+    backdrop-filter: blur(6px);
   }
 
-  /* === Fade subtil sus/jos pentru cutia scrollabilă === */
+  /* Scroll bar subțire */
+  .chapters-box::-webkit-scrollbar {
+    width: 6px;
+  }
+  .chapters-box::-webkit-scrollbar-thumb {
+    background: rgba(199,27,27,0.4);
+    border-radius: 4px;
+  }
+  .chapters-box::-webkit-scrollbar-thumb:hover {
+    background: rgba(199,27,27,0.6);
+  }
+
+  /* === Butoane capitole === */
+  .chapter-button {
+    display: block;
+    margin: 10px 0;
+    padding: 14px 18px;
+    background: linear-gradient(90deg, rgba(199,27,27,0.6), rgba(0,0,0,0.6));
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+  }
+  .chapter-button:hover {
+    background: linear-gradient(90deg, rgba(255,40,40,0.8), rgba(0,0,0,0.7));
+    transform: translateY(-2px);
+  }
+
+  .chapter-button.read {
+    opacity: 0.6;
+  }
+
+  /* Fade subtil sus/jos */
   .chapters-box::before,
   .chapters-box::after {
     content: "";
@@ -129,13 +106,21 @@
   }
   .chapters-box::before {
     top: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+    background: linear-gradient(to bottom, rgba(0,0,0,1), transparent);
   }
   .chapters-box::after {
     bottom: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    background: linear-gradient(to top, rgba(0,0,0,1), transparent);
+  }
+
+  .no-results {
+    text-align: center;
+    color: rgba(255,255,255,0.5);
+    margin-top: 20px;
+    font-style: italic;
   }
 </style>
+
 </head>
 
 <body class="landing-shell">
@@ -146,27 +131,26 @@
     </header>
 
     <main class="landing-shell__column landing-shell__column--center" role="main">
-      <h2 class="landing-shell__title">Kagurabachi</h2>
-      <p class="landing-shell__subtitle">Capitole disponibile</p>
+  <h2 class="landing-shell__title">Kagurabachi</h2>
+  <p class="landing-shell__subtitle">Capitole disponibile</p>
 
-      <!-- 🔍 Căutare -->
-      <div class="search-box">
-        <input type="text" id="chapterSearch" placeholder="Caută după nume sau număr...">
-      </div>
+  <!-- 🔍 Căutare + Bifă -->
+  <div class="search-filter-container">
+    <div class="search-box">
+      <input type="text" id="chapterSearch" placeholder="Caută capitol...">
+    </div>
+    <label class="filter-label">
+      <input type="checkbox" id="filterUnread">
+      Afișează doar necitite
+    </label>
+  </div>
 
-      <!-- ✅ Filtru -->
-      <div class="filter-box">
-        <label class="filter-label">
-          <input type="checkbox" id="filterUnread">
-          Afișează doar capitolele necitite
-        </label>
-      </div>
+  <!-- 📜 Casetă scroll cu capitole -->
+  <div class="chapters-box" id="chapters-list">
+    <!-- capitolele se generează din series-index.js -->
+  </div>
+</main>
 
-      <!-- 📜 Cutie scrollabilă -->
-      <div class="chapters-box">
-        <div id="chapters-list" class="chapters-grid"></div>
-      </div>
-    </main>
 
     <aside class="landing-shell__column landing-shell__column--right">
       <small class="landing-shell__copyright">&copy; 2025 MANGARO &mdash; TXRROT</small>
