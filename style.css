@@ -220,15 +220,16 @@ body.vertical-mode .reader-img {
   top: 50%;
   transform: translateY(-50%) rotate(-90deg);
   transform-origin: left top;
-  font-size: 40px;
-  font-weight: 700;
-  color: #c71b1b;
-  letter-spacing: 4px;
-  text-shadow: 0 0 14px rgba(199,27,27,0.6);
   opacity: 0;
   animation: logoFadeIn 1.5s forwards ease-out;
   z-index: 1000;
 }
+
+.vertical-logo img {
+  width: 180px; /* ajustează dimensiunea după nevoie */
+  filter: drop-shadow(0 0 10px rgba(199,27,27,0.6));
+}
 @keyframes logoFadeIn {
   to { opacity: 1; }
 }
+
