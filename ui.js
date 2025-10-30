@@ -185,41 +185,11 @@
     : `<p class="slide-menu__message">Capitolele vor fi disponibile în curând.</p>`;
   // nu afișa submeniul de capitole dacă nu ești într-o serie
 const isSeriesPage = window.location.pathname.includes('/Kagurabachi/');
-if (!isSeriesPage) {
-  // elimină complet secțiunea „Capitole”
-  slideMenu.innerHTML = `
-    <div class="slide-menu__header">
-      <h3>MENIU</h3>
-      <button type="button" class="slide-menu__close" aria-label="Închide meniul">&times;</button>
-    </div>
-    <div class="slide-menu__body">
-      <section>
-        <ul class="slide-menu__section">${staticItems}</ul>
-      </section>
-    </div>
-  `;
-} else {
-  // aici păstrezi conținutul original cu capitolele
-  slideMenu.innerHTML = `
-    <div class="slide-menu__header">
-      <h3>MENIU</h3>
-      <button type="button" class="slide-menu__close" aria-label="Închide meniul">&times;</button>
-    </div>
-    <div class="slide-menu__body">
-      <section>
-        <ul class="slide-menu__section">${staticItems}</ul>
-      </section>
-      <section class="chapters-block">
-        <button type="button" class="chapters-toggle" data-action="toggle-chapters" aria-expanded="false">
-          Capitole
-        </button>
-        ${chaptersMarkup}
-      </section>
-    </div>
-  `;
-}
-
-  slideMenu.innerHTML = `
+  // Decide whether to show chapters submenu (only on series pages)
+  const isSeriesPage = /\/Kagurabachi\//i.test(window.location.pathname);
+  let menuHTML = '';
+  if (isSeriesPage) {
+    menuHTML = `
     <div class="slide-menu__header">
       <h3>MENIU</h3>
       <button type="button" class="slide-menu__close" aria-label="Închide meniul">&times;</button>
@@ -242,9 +212,7 @@ if (!isSeriesPage) {
         </div>
       </section>
       <section>
-        <ul class="slide-menu__section">
-          ${staticItems}
-        </ul>
+        <ul class="slide-menu__section">${staticItems}</ul>
       </section>
       <section class="chapters-block">
         <button type="button" class="chapters-toggle" data-action="toggle-chapters" aria-expanded="false">
@@ -252,10 +220,21 @@ if (!isSeriesPage) {
         </button>
         ${chaptersMarkup}
       </section>
+    </div>`;
+  } else {
+    menuHTML = `
+    <div class="slide-menu__header">
+      <h3>MENIU</h3>
+      <button type="button" class="slide-menu__close" aria-label="Închide meniul">&times;</button>
     </div>
-  `;
-
-  document.body.appendChild(slideMenu);
+    <div class="slide-menu__body">
+      <section>
+        <ul class="slide-menu__section">${staticItems}</ul>
+      </section>
+    </div>`;
+  }
+  slideMenu.innerHTML = menuHTML;
+document.body.appendChild(slideMenu);
 
   const closeButton = slideMenu.querySelector('.slide-menu__close');
   const chaptersToggle = slideMenu.querySelector('[data-action="toggle-chapters"]');
