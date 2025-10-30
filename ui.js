@@ -3,11 +3,18 @@
     .replace(/\/+$/, '')
     .split('/')
     .filter(Boolean);
+  const repoSegment = 'mangaro';
+  const repoIndex = pathParts.indexOf(repoSegment);
+  const siteParts = repoIndex !== -1 ? pathParts.slice(repoIndex + 1) : pathParts;
   const defaultSeriesSlug = 'Kagurabachi';
-  const fileName = pathParts[pathParts.length - 1] || '';
-  const depth = fileName.includes('.') ? Math.max(pathParts.length - 1, 0) : pathParts.length;
+  const fileName = siteParts[siteParts.length - 1] || '';
+  const depth = fileName.includes('.')
+    ? Math.max(siteParts.length - 1, 0)
+    : siteParts.length;
   const rootPrefix = depth > 0 ? '../'.repeat(depth) : './';
-  const seriesSlug = pathParts.length > 1 ? pathParts[0] : defaultSeriesSlug;
+  const firstSegment = siteParts[0] || '';
+  const seriesSlug =
+    firstSegment && !firstSegment.includes('.') ? firstSegment : defaultSeriesSlug;
   const seriesBasePath = `${rootPrefix}${seriesSlug}/`;
 
   const chapters = [
@@ -186,14 +193,17 @@
       <section class="slide-menu__settings" aria-label="Setări cititor">
         <h4 class="slide-menu__settings-title">Setări cititor</h4>
         <div class="reader-setting">
-        </div>
-        <div class="reader-setting">
           <span class="reader-setting__label">Memorează progresul</span>
           <label class="toggle-switch">
             <input type="checkbox" data-setting="remember-progress" checked>
           </label>
         </div>
         <div class="reader-setting">
+          <span class="reader-setting__label">Navigare rapidă</span>
+          <div class="reader-setting__actions">
+            <button type="button" class="reader-setting__button" data-action="goto-first">Prima</button>
+            <button type="button" class="reader-setting__button" data-action="goto-last">Ultima</button>
+          </div>
         </div>
       </section>
       <section>
