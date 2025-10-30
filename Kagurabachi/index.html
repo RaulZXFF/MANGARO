@@ -14,7 +14,7 @@
     justify-content: center;
     align-items: center;
     gap: 12px;
-    margin: 25px auto 20px;
+    margin: 15px auto 10px; /* ⬅️ mai puțin spațiu între search și capitole */
     flex-wrap: wrap;
   }
 
@@ -47,34 +47,36 @@
   }
 
   /* === Caseta capitolelor === */
-  .chapters-box {
-    width: 90%;
-    max-width: 500px;
-    height: 400px;
-    margin: 0 auto 50px;
-    padding-right: 10px;
-    overflow-y: auto;
-    backdrop-filter: blur(6px);
-  }
+.chapters-box {
+  width: 90%;
+  max-width: 500px;
+  height: 330px; /* ⬅️ doar 5 butoane vizibile */
+  margin: 10px auto 40px; /* ⬅️ mai puțin spațiu sus */
+  padding-right: 6px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  backdrop-filter: blur(6px);
+  border-right: none; /* elimină linia roșie */
+}
 
-  /* Scroll bar subțire */
-  .chapters-box::-webkit-scrollbar {
-    width: 6px;
-  }
-  .chapters-box::-webkit-scrollbar-thumb {
-    background: rgba(199,27,27,0.4);
-    border-radius: 4px;
-  }
-  .chapters-box::-webkit-scrollbar-thumb:hover {
-    background: rgba(199,27,27,0.6);
-  }
+/* Scroll bar subțire și discret */
+.chapters-box::-webkit-scrollbar {
+  width: 5px;
+}
+.chapters-box::-webkit-scrollbar-thumb {
+  background: rgba(199,27,27,0.35);
+  border-radius: 4px;
+}
+.chapters-box::-webkit-scrollbar-thumb:hover {
+  background: rgba(199,27,27,0.55);
+}
 
   /* === Butoane capitole === */
   .chapter-button {
     display: block;
     margin: 10px 0;
     padding: 14px 18px;
-    background: linear-gradient(90deg, rgba(199,27,27,0.6), rgba(0,0,0,0.6));
+    background: linear-gradient(130deg, rgba(199, 27, 27, 0.3), rgba(16, 20, 24, 0.95));
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 12px;
     color: #fff;
