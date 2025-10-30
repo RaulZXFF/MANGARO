@@ -129,6 +129,13 @@ function renderChapters(filter = "", showUnreadOnly = false) {
     .join("");
 }
 
+// 🔥 Mic efect de fade la schimbarea listei
+listContainer.style.opacity = 0;
+setTimeout(() => {
+  listContainer.style.opacity = 1;
+}, 150);
+}
+
 function refreshList() {
   renderChapters(searchInput.value, filterToggle.checked);
 }
