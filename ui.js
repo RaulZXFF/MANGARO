@@ -502,3 +502,21 @@ animationsToggle?.addEventListener("change", (e) => {
   localStorage.setItem("mangaro.animations", enabled);
   body.classList.toggle("no-animations", !enabled);
 });
+
+// === Buton meniu plutitor pentru modul citire ===
+document.addEventListener("DOMContentLoaded", () => {
+  const inReader = window.location.pathname.includes("/CA-");
+  if (inReader) {
+    const menuBtn = document.createElement("div");
+    menuBtn.className = "reader-menu-btn";
+    menuBtn.textContent = "MENIU";
+    menuBtn.onclick = () => {
+      document.body.classList.toggle("menu-open");
+    };
+    document.body.appendChild(menuBtn);
+  }
+
+  // === Control pentru animații ===
+  const animationsEnabled = localStorage.getItem("mangaro.animations") !== "false";
+  if (!animationsEnabled) document.body.classList.add("no-animations");
+});
