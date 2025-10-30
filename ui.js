@@ -32,9 +32,7 @@
   musicPlayer.className = "music-player";
   musicPlayer.innerHTML = `
     <select id="musicSelect">
-      <option value="../../audio/mix1.mp3">Mix 1</option>
-      <option value="../../audio/mix2.mp3">Mix 2</option>
-      <option value="../../audio/mix3.mp3">Mix 3</option>
+      <option value="../../audio/Chill LO-Fi.mp3">Chill LO-Fi</option>
     </select>
     <audio id="audioPlayer" controls></audio>
   `;
