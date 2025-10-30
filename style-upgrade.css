@@ -89,3 +89,31 @@ body:not(.vertical-mode) .read-progress{display:none}
   background: rgba(199,27,27,.4);
   border-color: rgba(199,27,27,.6);
 }
+
+/* === Animații elegante === */
+:root {
+  --anim-speed: 0.35s;
+}
+
+.chapter-button {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeSlideIn var(--anim-speed) ease forwards;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hover animat */
+.chapter-button:hover {
+  box-shadow: 0 0 10px rgba(199,27,27,0.5);
+  transition: all var(--anim-speed) ease;
+}
+
+/* Când animațiile sunt dezactivate */
+.no-animations * {
+  transition: none !important;
+  animation: none !important;
+}
