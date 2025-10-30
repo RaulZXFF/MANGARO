@@ -756,3 +756,10 @@ body.menu-open {
   overflow-y: auto;   /* scroll doar pe lista de capitole */
   overflow-x: hidden; /* nimic pe orizontală */
 }
+
+.slide-menu__link.read::after {
+  content: "✔";
+  color: rgba(199, 27, 27, 0.85);
+  font-size: 0.8em;
+  margin-left: 6px;
+}
