@@ -158,3 +158,73 @@ body {
   background: rgba(255,40,40,0.9);
   transform: scale(1.05);
 }
+
+/* === Buton meniu plutitor === */
+.reader-menu-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: rgba(199,27,27,0.9);
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  z-index: 9999;
+  transition: all 0.25s ease;
+}
+.reader-menu-btn:hover {
+  background: rgba(255,40,40,0.9);
+  transform: scale(1.05);
+}
+
+/* === Overlay meniu === */
+.reader-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 9998;
+}
+.reader-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.reader-menu {
+  background: rgba(30,30,30,0.95);
+  padding: 25px 30px;
+  border-radius: 14px;
+  text-align: center;
+  color: #fff;
+  width: 260px;
+  animation: menuSlide 0.3s ease forwards;
+}
+.reader-menu h3 {
+  margin-top: 0;
+  color: #c71b1b;
+}
+.reader-menu a {
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  margin: 10px 0;
+  font-weight: 600;
+}
+.reader-menu hr {
+  border: 0;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  margin: 15px 0;
+}
+
+@keyframes menuSlide {
+  from { transform: translateY(-10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
