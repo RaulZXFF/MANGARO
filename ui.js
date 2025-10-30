@@ -399,3 +399,55 @@
     setReaderActionState(hasReader);
   });
 })();
+
+// === UI UPGRADE (adăugat după scriptul original) ===
+(function () {
+  // marchează capitolul citit
+  const last = localStorage.getItem('lastRead');
+  if (last) {
+    document.querySelectorAll('.slide-menu__link[data-slug]').forEach(a => {
+      if (a.dataset.slug === last) a.classList.add('read');
+    });
+  }
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('.slide-menu__link[data-slug]');
+    if (a) localStorage.setItem('lastRead', a.dataset.slug);
+  });
+
+  // bară de progres (sus)
+  const bar = document.createElement('div');
+  bar.className = 'read-progress';
+  document.body.appendChild(bar);
+
+  function updateProgress() {
+    if (!document.body.classList.contains('vertical-mode')) {
+      bar.style.width = '0';
+      return;
+    }
+    const el = document.querySelector('.reader-wrap') || document.documentElement;
+    const scrollTop = document.scrollingElement.scrollTop || window.pageYOffset;
+    const docH = el.scrollHeight - window.innerHeight;
+    const p = Math.max(0, Math.min(1, docH ? scrollTop / docH : 0));
+    bar.style.width = (p * 100).toFixed(2) + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  window.addEventListener('resize', updateProgress);
+  document.addEventListener('mangaro:vertical-change', updateProgress);
+  setTimeout(updateProgress, 0);
+
+  // control luminozitate
+  const savedB = localStorage.getItem('reader.brightness') || 'normal';
+  if (savedB !== 'normal') document.body.setAttribute('data-brightness', savedB);
+
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-bright]');
+    if (!b) return;
+    const mode = b.dataset.bright; // dim | normal | bright
+    if (mode === 'normal') document.body.removeAttribute('data-brightness');
+    else document.body.setAttribute('data-brightness', mode);
+    localStorage.setItem('reader.brightness', mode);
+    document.querySelectorAll('[data-bright]').forEach(x =>
+      x.setAttribute('aria-pressed', x === b ? 'true' : 'false')
+    );
+  });
+})();
