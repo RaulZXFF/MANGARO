@@ -202,6 +202,10 @@ const isSeriesPage = window.location.pathname.includes('/Kagurabachi/');
           <label class="toggle-switch">
             <input type="checkbox" data-setting="remember-progress" checked>
           </label>
+          <label class="setting-toggle">
+            <input type="checkbox" id="toggleAnimations">
+            <span>Activează animațiile</span>
+          </label>
         </div>
         <div class="reader-setting">
           <span class="reader-setting__label">Navigare rapidă</span>
@@ -482,3 +486,19 @@ document.body.appendChild(slideMenu);
     );
   });
 })();
+
+// === Control pentru animații ===
+const animationsToggle = document.getElementById("toggleAnimations");
+const body = document.body;
+
+// Încarcă preferința din localStorage
+const animationsEnabled = localStorage.getItem("mangaro.animations") !== "false";
+if (!animationsEnabled) body.classList.add("no-animations");
+if (animationsToggle) animationsToggle.checked = animationsEnabled;
+
+// Ascultă modificarea
+animationsToggle?.addEventListener("change", (e) => {
+  const enabled = e.target.checked;
+  localStorage.setItem("mangaro.animations", enabled);
+  body.classList.toggle("no-animations", !enabled);
+});
