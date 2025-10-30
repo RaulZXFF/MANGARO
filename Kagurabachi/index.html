@@ -6,7 +6,65 @@
 <title>KAGURABACHI</title>
 <link rel="stylesheet" href="../style.css">
 <link rel="stylesheet" href="../style-upgrade.css">
+<style>
+  .search-box {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 25px;
+  }
+  .search-box input {
+    width: 80%;
+    max-width: 400px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s ease;
+  }
+  .search-box input:focus {
+    background: rgba(255,255,255,0.12);
+    box-shadow: 0 0 8px rgba(199,27,27,0.4);
+  }
+  .chapters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+    width: 90%;
+    max-width: 900px;
+    margin: 0 auto 60px;
+  }
+  .chapter-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 12px 16px;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.15s ease;
+  }
+  .chapter-card:hover {
+    background: rgba(199,27,27,0.3);
+    transform: translateY(-2px);
+  }
+  .chapter-card span {
+    font-size: 0.85rem;
+    opacity: 0.75;
+  }
+  .no-results {
+    text-align: center;
+    color: rgba(255,255,255,0.5);
+    margin-top: 20px;
+    font-style: italic;
+  }
+</style>
 </head>
+
 <body class="landing-shell">
   <div class="landing-shell__frame">
     <header class="landing-shell__column landing-shell__column--left">
@@ -17,10 +75,14 @@
     <main class="landing-shell__column landing-shell__column--center" role="main">
       <h2 class="landing-shell__title">Kagurabachi</h2>
       <p class="landing-shell__subtitle">Capitole disponibile</p>
-      <nav class="series-list series-list--chapters" aria-label="Capitole Kagurabachi">
-        <a class="series-list__item" href="CA-1/CA-1.html">Capitolul 1 - Misiunea</a>
-        <a class="series-list__item" href="CA-2/CA-2.html">Capitolul 2 - Gramezi</a>
-      </nav>
+
+      <!-- 🔍 Caseta de căutare -->
+      <div class="search-box">
+        <input type="text" id="chapterSearch" placeholder="Caută după nume sau număr...">
+      </div>
+
+      <!-- 📜 Lista dinamică -->
+      <div id="chapters-list" class="chapters-grid"></div>
     </main>
 
     <aside class="landing-shell__column landing-shell__column--right">
@@ -28,6 +90,10 @@
     </aside>
   </div>
 
+  <!-- Scripturile existente -->
   <script src="../ui.js"></script>
+
+  <!-- Script nou pentru generare + căutare capitole -->
+  <script src="../series-index.js"></script>
 </body>
 </html>
