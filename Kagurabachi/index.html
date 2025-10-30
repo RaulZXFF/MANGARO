@@ -73,17 +73,25 @@
     </header>
 
     <main class="landing-shell__column landing-shell__column--center" role="main">
-      <h2 class="landing-shell__title">Kagurabachi</h2>
-      <p class="landing-shell__subtitle">Capitole disponibile</p>
+  <h2 class="landing-shell__title">Kagurabachi</h2>
+  <p class="landing-shell__subtitle">Capitole disponibile</p>
 
-      <!-- 🔍 Caseta de căutare -->
-      <div class="search-box">
-        <input type="text" id="chapterSearch" placeholder="Caută după nume sau număr...">
-      </div>
+  <!-- 🔍 Căutare -->
+  <div class="search-box">
+    <input type="text" id="chapterSearch" placeholder="Caută după nume sau număr...">
+  </div>
 
-      <!-- 📜 Lista dinamică -->
-      <div id="chapters-list" class="chapters-grid"></div>
-    </main>
+  <!-- ✅ Filtru -->
+  <div class="filter-box">
+    <label class="filter-label">
+      <input type="checkbox" id="filterUnread">
+      Afișează doar capitolele necitite
+    </label>
+  </div>
+
+  <!-- 📜 Lista generată -->
+  <div id="chapters-list" class="chapters-grid"></div>
+</main>
 
     <aside class="landing-shell__column landing-shell__column--right">
       <small class="landing-shell__copyright">&copy; 2025 MANGARO &mdash; TXRROT</small>
