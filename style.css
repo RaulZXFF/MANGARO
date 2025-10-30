@@ -226,10 +226,11 @@ body.vertical-mode .reader-img {
 }
 
 .vertical-logo img {
-  width: 180px; /* ajustează dimensiunea după nevoie */
+  width: 350px; /* ajustează dimensiunea după nevoie */
   filter: drop-shadow(0 0 10px rgba(199,27,27,0.6));
 }
 @keyframes logoFadeIn {
   to { opacity: 1; }
 }
+
 
