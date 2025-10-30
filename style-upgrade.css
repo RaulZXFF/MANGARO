@@ -117,3 +117,44 @@ body:not(.vertical-mode) .read-progress{display:none}
   transition: none !important;
   animation: none !important;
 }
+
+/* === Animații globale === */
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.chapter-button {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Elimină tranzițiile dacă animațiile sunt dezactivate */
+.no-animations * {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Meniu plutitor la modul citire */
+.reader-menu-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: rgba(199,27,27,0.85);
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+.reader-menu-btn:hover {
+  background: rgba(255,40,40,0.9);
+  transform: scale(1.05);
+}
