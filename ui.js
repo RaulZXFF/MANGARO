@@ -401,18 +401,35 @@
 })();
 
 // === UI UPGRADE (adăugat după scriptul original) ===
+// === Capitol citit + bifa ===
 (function () {
-  // marchează capitolul citit
-  const last = localStorage.getItem('lastRead');
-  if (last) {
+  const READ_KEY = 'mangaro.readChapters';
+  const stored = JSON.parse(localStorage.getItem(READ_KEY) || '[]');
+
+  // marchează vizual capitolele citite
+  function markReadChapters() {
     document.querySelectorAll('.slide-menu__link[data-slug]').forEach(a => {
-      if (a.dataset.slug === last) a.classList.add('read');
+      if (stored.includes(a.dataset.slug)) {
+        a.classList.add('read');
+      }
     });
   }
-  document.addEventListener('click', (e) => {
-    const a = e.target.closest('.slide-menu__link[data-slug]');
-    if (a) localStorage.setItem('lastRead', a.dataset.slug);
+  markReadChapters();
+
+  // salvează în localStorage
+  function saveRead(slug) {
+    if (!slug || stored.includes(slug)) return;
+    stored.push(slug);
+    localStorage.setItem(READ_KEY, JSON.stringify(stored));
+    markReadChapters();
+  }
+
+  // ascultă evenimentul de final de capitol
+  document.addEventListener('mangaro:chapter-read', e => {
+    if (e.detail?.slug) saveRead(e.detail.slug);
   });
+})();
+
 
   // bară de progres (sus)
   const bar = document.createElement('div');
