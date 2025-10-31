@@ -75,10 +75,10 @@ a {
   text-decoration: none;
 }
 
-a:focus-visible,␊
-a:hover {␊
+a:focus-visible,
+a:hover {
   color: var(--reader-text);
-}␊
+}
 
 button {
   font: inherit;
@@ -289,14 +289,14 @@ body.vertical-mode .reader-wrap::-webkit-scrollbar-thumb {
 }
 
 /* --- Meniu glisant --- */
-.menu-toggle {␊
-  position: fixed;␊
-  top: 35%;␊
-  right: 0;␊
-  width: 54px;␊
+.menu-toggle {
+  position: fixed;
+  top: 35%;
+  right: 0;
+  width: 54px;
   height: 150px;
   border: none;
-  background: rgba(26, 29, 34, 0.95);␊
+  background: rgba(26, 29, 34, 0.95);
   color: inherit;
   display: flex;
   flex-direction: column;
@@ -400,29 +400,29 @@ body.theme-sunset .menu-toggle:hover {
   transform: rotate(-45deg);
 }
 
-.menu-toggle__label {␊
-  font-size: 12px;␊
-  letter-spacing: 0.3em;␊
-  text-transform: uppercase;␊
-  writing-mode: vertical-rl;␊
-  transform: rotate(180deg);␊
-  font-weight: 600;␊
+.menu-toggle__label {
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-weight: 600;
   color: currentColor;
-}␊
+}
 
 .menu-toggle.open .menu-toggle__label {
   color: #fff;
 }
 
-.menu-overlay {␊
-  position: fixed;␊
-  inset: 0;␊
-  background: rgba(6, 8, 11, 0.55);␊
-  opacity: 0;␊
-  pointer-events: none;␊
-  transition: opacity 0.3s ease;␊
-  z-index: 1085;␊
-}␊
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 8, 11, 0.55);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1085;
+}
 
 .menu-overlay.open {
   opacity: 1;

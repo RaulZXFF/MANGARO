@@ -65,7 +65,7 @@ body.theme-sunset .slide-menu__link.read{
 }
 
 /* 5) meniul – intrare mai „premium” + scrollbar fix */
-.slide-menu{overflow:hidden}
+.slide-menu{overflow-y:auto}
 .slide-menu.open{animation: menuSlideIn .4s cubic-bezier(.25,1,.5,1)}
 @keyframes menuSlideIn{from{right:-340px;opacity:0}to{right:0;opacity:1}}
 .slide-menu__body{overflow-y:auto;overflow-x:hidden;padding-bottom:36px}
@@ -81,7 +81,7 @@ body.theme-sunset .slide-menu__link.read{
 .chapters-toggle.is-open::after{transform:rotate(-135deg)}
 
 /* 7) lista capitole – acordeon fluid, fără scroll dublu */
-.chapters-list{max-height:0;opacity:0;overflow:hidden;transition:max-height .35s ease, opacity .3s ease;padding-right:0}
+.chapters-list{max-height:0;opacity:0;overflow-y:auto;transition:max-height .35s ease, opacity .3s ease;padding-right:0}
 .chapters-toggle.is-open + .chapters-list{max-height:60vh;opacity:1;overflow-y:auto;overflow-x:hidden;padding-right:4px}
 .chapters-list::-webkit-scrollbar{width:6px}
 .chapters-list::-webkit-scrollbar-thumb{background: rgba(199,27,27,.35);border-radius:999px}
@@ -126,5 +126,113 @@ body:not(.vertical-mode) .read-progress{display:none}
   transition: all var(--anim-speed) ease;
 }
 
-/* Când animațiile sunt dezactivate */
+/* === Animații globale === */
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.chapter-button {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Elimină tranzițiile dacă animațiile sunt dezactivate */
 .no-animations * {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Meniu plutitor la modul citire */
+.reader-menu-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: rgba(199,27,27,0.85);
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+.reader-menu-btn:hover {
+  background: rgba(255,40,40,0.9);
+  transform: scale(1.05);
+}
+
+/* === Buton meniu plutitor === */
+.reader-menu-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: rgba(199,27,27,0.9);
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  z-index: 9999;
+  transition: all 0.25s ease;
+}
+.reader-menu-btn:hover {
+  background: rgba(255,40,40,0.9);
+  transform: scale(1.05);
+}
+
+/* === Overlay meniu === */
+.reader-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 9998;
+}
+.reader-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.reader-menu {
+  background: rgba(30,30,30,0.95);
+  padding: 25px 30px;
+  border-radius: 14px;
+  text-align: center;
+  color: #fff;
+  width: 260px;
+  animation: menuSlide 0.3s ease forwards;
+}
+.reader-menu h3 {
+  margin-top: 0;
+  color: #c71b1b;
+}
+.reader-menu a {
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  margin: 10px 0;
+  font-weight: 600;
+}
+.reader-menu hr {
+  border: 0;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  margin: 15px 0;
+}
+
+@keyframes menuSlide {
+  from { transform: translateY(-10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
