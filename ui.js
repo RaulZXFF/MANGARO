@@ -37,7 +37,7 @@
     // === Linkuri statice ===
     const staticLinks = [
       { href: `${rootPrefix}index.html`, label: "Pagina principală" },
-      { href: `${seriesBasePath}index.html`, label: "Lista capitolelor" },
+      { href: `../${seriesBasePath}index.html`, label: "Lista capitolelor" },
     ];
 
     const staticItems = staticLinks
