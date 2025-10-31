@@ -255,3 +255,32 @@ body:not(.vertical-mode) .read-progress{display:none}
   opacity: 1;
   pointer-events: auto;
 }
+
+/* === FIX landing page === */
+.landing-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--reader-background, #0b0d10);
+  color: var(--reader-text, #ffffff);
+}
+
+.landing-shell__frame {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 40px;
+  text-align: center;
+}
+
+.series-list__item {
+  display: block;
+  margin-top: 12px;
+  font-weight: 600;
+  color: var(--reader-text, #fff);
+  transition: color 0.2s ease;
+}
+
+.series-list__item:hover {
+  color: #c71b1b;
+}
