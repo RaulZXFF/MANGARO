@@ -220,3 +220,38 @@ body:not(.vertical-mode) .read-progress{display:none}
   from { transform: translateY(-10px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
+
+/* === FIX layout meniu === */
+.slide-menu {
+  position: fixed !important;
+  top: 0;
+  right: -340px;
+  width: min(90vw, 340px);
+  height: 100%;
+  overflow-y: auto !important;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  background: rgba(10, 12, 16, 0.96);
+  transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 1090;
+}
+
+.slide-menu.open {
+  right: 0 !important;
+}
+
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 8, 11, 0.55);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1085;
+}
+
+.menu-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
