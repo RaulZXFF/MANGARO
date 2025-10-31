@@ -5,7 +5,10 @@
   --accent: #c71b1b;
   --muted: rgba(255,255,255,.55);
 }
-html,body{background: radial-gradient(1200px 800px at 20% 20%, #101318, #0b0d10 60%, #090b0e 100%);background-size: 300% 300%;animation: bgShift 30s ease infinite;}
+body:not(.theme-light):not(.theme-sepia):not(.theme-sunset){background: radial-gradient(1200px 800px at 20% 20%, #101318, #0b0d10 60%, #090b0e 100%);background-size: 300% 300%;animation: bgShift 30s ease infinite;}
+body.theme-light{background: radial-gradient(1600px 900px at 20% 20%, #ffffff, #f5f5f2 65%, #ebe9e1 100%);color:#16181d;}
+body.theme-sepia{background: radial-gradient(1400px 820px at 20% 20%, #f8edd7, #f1e2c5 60%, #e1cfab 100%);color:#4b3823;}
+body.theme-sunset{background: radial-gradient(1400px 820px at 20% 20%, #1e1727, #15121c 60%, #0f0c16 100%);color:#f4ecff;}
 @keyframes bgShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 
 /* 2) titluri cu glow subtil */
@@ -41,6 +44,24 @@ html,body{background: radial-gradient(1200px 800px at 20% 20%, #101318, #0b0d10 
   color: rgba(255,255,255,.6);
   background: rgba(255,255,255,.06);
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+}
+
+body.theme-light .slide-menu__link.read{
+  color: rgba(22,24,29,.55);
+  background: rgba(22,24,29,.08);
+  box-shadow: inset 0 0 0 1px rgba(22,24,29,.08);
+}
+
+body.theme-sepia .slide-menu__link.read{
+  color: rgba(75,56,35,.55);
+  background: rgba(75,56,35,.12);
+  box-shadow: inset 0 0 0 1px rgba(75,56,35,.12);
+}
+
+body.theme-sunset .slide-menu__link.read{
+  color: rgba(244,236,255,.7);
+  background: rgba(232,105,159,.12);
+  box-shadow: inset 0 0 0 1px rgba(232,105,159,.22);
 }
 
 /* 5) meniul – intrare mai „premium” + scrollbar fix */
@@ -79,16 +100,9 @@ body:not(.vertical-mode) .read-progress{display:none}
 [data-brightness="bright"]{filter:brightness(1.15)}
 
 /* 10) butoane mici în setări (se potrivesc cu stilul tău) */
-.reader-setting__pill{
-  background: rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.12);
-  padding:6px 10px;border-radius:999px;
-  font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
-}
-.reader-setting__pill[aria-pressed="true"]{
-  background: rgba(199,27,27,.4);
-  border-color: rgba(199,27,27,.6);
-}
+.reader-setting__pill{transition: transform .2s ease, box-shadow .2s ease;}
+.reader-setting__pill:hover{transform: translateY(-1px);box-shadow:0 6px 12px rgba(199,27,27,.25);}
+.reader-setting__pill[aria-pressed="true"]{box-shadow:0 8px 18px rgba(199,27,27,.35);}
 
 /* === Animații elegante === */
 :root {

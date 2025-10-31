@@ -1,4 +1,28 @@
 // === Kagurabachi - Lista Capitolelor + Căutare ===
+const storage = (() => {
+  if (window.__mangaroStorage) {
+    return window.__mangaroStorage;
+  }
+  try {
+    const probeKey = '__mangaro_probe__';
+    window.localStorage.setItem(probeKey, '1');
+    window.localStorage.removeItem(probeKey);
+    window.__mangaroStorage = window.localStorage;
+  } catch (error) {
+    const memory = new Map();
+    window.__mangaroStorage = {
+      getItem: (key) => (memory.has(key) ? memory.get(key) : null),
+      setItem: (key, value) => {
+        memory.set(key, String(value));
+      },
+      removeItem: (key) => {
+        memory.delete(key);
+      },
+    };
+  }
+  return window.__mangaroStorage;
+})();
+
 const chapters = [
   { slug: 'CA-1', title: '#001 - Misiunea' },
   { slug: 'CA-2', title: '#002 - Gramezi' },
@@ -104,62 +128,64 @@ const listContainer = document.getElementById("chapters-list");
 const searchInput = document.getElementById("chapterSearch");
 const filterToggle = document.getElementById("filterUnread");
 
-function renderChapters(filter = "", showUnreadOnly = false) {
-  const read = JSON.parse(localStorage.getItem("mangaro.readChapters") || "[]");
-  const filtered = chapters.filter((c) => {
-    const matchesText =
-      c.title.toLowerCase().includes(filter.toLowerCase()) ||
-      c.slug.toLowerCase().includes(filter.toLowerCase());
-    const matchesUnread = showUnreadOnly ? !read.includes(c.slug) : true;
-    return matchesText && matchesUnread;
-  });
+if (listContainer && searchInput && filterToggle) {
+  function renderChapters(filter = "", showUnreadOnly = false) {
+    const read = JSON.parse(storage.getItem("mangaro.readChapters") || "[]");
+    const filtered = chapters.filter((c) => {
+      const matchesText =
+        c.title.toLowerCase().includes(filter.toLowerCase()) ||
+        c.slug.toLowerCase().includes(filter.toLowerCase());
+      const matchesUnread = showUnreadOnly ? !read.includes(c.slug) : true;
+      return matchesText && matchesUnread;
+    });
 
-  if (!filtered.length) {
-    listContainer.innerHTML = `<p class="no-results">Niciun capitol găsit.</p>`;
-    return;
-  }
+    if (!filtered.length) {
+      listContainer.innerHTML = `<p class="no-results">Niciun capitol găsit.</p>`;
+      return;
+    }
 
-  listContainer.innerHTML = filtered
-    .map(
-      (c) => `
+    listContainer.innerHTML = filtered
+      .map(
+        (c) => `
       <a class="chapter-button ${read.includes(c.slug) ? "read" : ""}" href="./${c.slug}/${c.slug}.html">
         ${c.title}
       </a>`
-    )
-    .join("");
+      )
+      .join("");
 
-  // 🔥 Mic efect de fade la schimbarea listei
-  listContainer.style.opacity = 0;
-  setTimeout(() => {
-    listContainer.style.opacity = 1;
-  }, 150);
-}
-
-function refreshList() {
-  renderChapters(searchInput.value, filterToggle.checked);
-}
-
-searchInput.addEventListener("input", refreshList);
-filterToggle.addEventListener("change", refreshList);
-
-// 🔥 Afișează capitolele imediat la încărcare
-document.addEventListener("DOMContentLoaded", () => {
-  renderChapters();
-
-  // ✨ Bonus: efect "smooth inertia" la scroll
-  const scroller = document.querySelector(".chapters-box");
-  if (scroller) {
-    let lastY = 0;
-    let ticking = false;
-    scroller.addEventListener("scroll", () => {
-      lastY = scroller.scrollTop;
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          scroller.style.scrollBehavior = "smooth";
-          ticking = false;
-        });
-        ticking = true;
-      }
-    });
+    // 🔥 Mic efect de fade la schimbarea listei
+    listContainer.style.opacity = 0;
+    setTimeout(() => {
+      listContainer.style.opacity = 1;
+    }, 150);
   }
-});
+
+  function refreshList() {
+    renderChapters(searchInput.value, filterToggle.checked);
+  }
+
+  searchInput.addEventListener("input", refreshList);
+  filterToggle.addEventListener("change", refreshList);
+
+  // 🔥 Afișează capitolele imediat la încărcare
+  document.addEventListener("DOMContentLoaded", () => {
+    renderChapters();
+
+    // ✨ Bonus: efect "smooth inertia" la scroll
+    const scroller = document.querySelector(".chapters-box");
+    if (scroller) {
+      let lastY = 0;
+      let ticking = false;
+      scroller.addEventListener("scroll", () => {
+        lastY = scroller.scrollTop;
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            scroller.style.scrollBehavior = "smooth";
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+    }
+  });
+}
