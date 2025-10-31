@@ -1,5 +1,29 @@
 (function () {
   document.addEventListener("DOMContentLoaded", () => {
+    const storage = (() => {
+      if (window.__mangaroStorage) {
+        return window.__mangaroStorage;
+      }
+      try {
+        const probeKey = '__mangaro_probe__';
+        window.localStorage.setItem(probeKey, '1');
+        window.localStorage.removeItem(probeKey);
+        window.__mangaroStorage = window.localStorage;
+      } catch (error) {
+        const memory = new Map();
+        window.__mangaroStorage = {
+          getItem: (key) => (memory.has(key) ? memory.get(key) : null),
+          setItem: (key, value) => {
+            memory.set(key, String(value));
+          },
+          removeItem: (key) => {
+            memory.delete(key);
+          },
+        };
+      }
+      return window.__mangaroStorage;
+    })();
+
     // === Rulează doar pe paginile de capitol ===
     const isReaderPage = /CA-\d+/.test(window.location.pathname);
     if (!isReaderPage) return;
@@ -162,7 +186,7 @@
     );
 
     function applyReadStatus() {
-      const read = JSON.parse(localStorage.getItem(readChaptersKey) || "[]");
+      const read = JSON.parse(storage.getItem(readChaptersKey) || "[]");
       chapterLinks.forEach((link) => {
         if (!link.dataset.slug) return;
         link.classList.toggle("read", read.includes(link.dataset.slug));
@@ -293,13 +317,15 @@
 
     // === Toggle animații ===
     const animationsToggle = document.getElementById("toggleAnimations");
-    const animationsEnabled = localStorage.getItem("mangaro.animations") !== "false";
+    const animationsEnabled = storage.getItem("mangaro.animations") !== "false";
     if (!animationsEnabled) document.body.classList.add("no-animations");
-    animationsToggle.checked = animationsEnabled;
-    animationsToggle.addEventListener("change", (e) => {
-      const enabled = e.target.checked;
-      localStorage.setItem("mangaro.animations", enabled);
-      document.body.classList.toggle("no-animations", !enabled);
-    });
+    if (animationsToggle) {
+      animationsToggle.checked = animationsEnabled;
+      animationsToggle.addEventListener("change", (e) => {
+        const enabled = e.target.checked;
+        storage.setItem("mangaro.animations", enabled);
+        document.body.classList.toggle("no-animations", !enabled);
+      });
+    }
   });
 })();

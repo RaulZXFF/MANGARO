@@ -1,28 +1,4 @@
 // === Kagurabachi - Lista Capitolelor + Căutare ===
-const storage = (() => {
-  if (window.__mangaroStorage) {
-    return window.__mangaroStorage;
-  }
-  try {
-    const probeKey = '__mangaro_probe__';
-    window.localStorage.setItem(probeKey, '1');
-    window.localStorage.removeItem(probeKey);
-    window.__mangaroStorage = window.localStorage;
-  } catch (error) {
-    const memory = new Map();
-    window.__mangaroStorage = {
-      getItem: (key) => (memory.has(key) ? memory.get(key) : null),
-      setItem: (key, value) => {
-        memory.set(key, String(value));
-      },
-      removeItem: (key) => {
-        memory.delete(key);
-      },
-    };
-  }
-  return window.__mangaroStorage;
-})();
-
 const chapters = [
   { slug: 'CA-1', title: '#001 - Misiunea' },
   { slug: 'CA-2', title: '#002 - Gramezi' },
@@ -130,7 +106,7 @@ const filterToggle = document.getElementById("filterUnread");
 
 if (listContainer && searchInput && filterToggle) {
   function renderChapters(filter = "", showUnreadOnly = false) {
-    const read = JSON.parse(storage.getItem("mangaro.readChapters") || "[]");
+    const read = JSON.parse(localStorage.getItem("mangaro.readChapters") || "[]");
     const filtered = chapters.filter((c) => {
       const matchesText =
         c.title.toLowerCase().includes(filter.toLowerCase()) ||

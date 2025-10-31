@@ -65,7 +65,7 @@ body.theme-sunset .slide-menu__link.read{
 }
 
 /* 5) meniul – intrare mai „premium” + scrollbar fix */
-.slide-menu{overflow-y:auto}
+.slide-menu{overflow:hidden}
 .slide-menu.open{animation: menuSlideIn .4s cubic-bezier(.25,1,.5,1)}
 @keyframes menuSlideIn{from{right:-340px;opacity:0}to{right:0;opacity:1}}
 .slide-menu__body{overflow-y:auto;overflow-x:hidden;padding-bottom:36px}
@@ -81,7 +81,7 @@ body.theme-sunset .slide-menu__link.read{
 .chapters-toggle.is-open::after{transform:rotate(-135deg)}
 
 /* 7) lista capitole – acordeon fluid, fără scroll dublu */
-.chapters-list{max-height:0;opacity:0;overflow-y:auto;transition:max-height .35s ease, opacity .3s ease;padding-right:0}
+.chapters-list{max-height:0;opacity:0;overflow:hidden;transition:max-height .35s ease, opacity .3s ease;padding-right:0}
 .chapters-toggle.is-open + .chapters-list{max-height:60vh;opacity:1;overflow-y:auto;overflow-x:hidden;padding-right:4px}
 .chapters-list::-webkit-scrollbar{width:6px}
 .chapters-list::-webkit-scrollbar-thumb{background: rgba(199,27,27,.35);border-radius:999px}
@@ -124,22 +124,6 @@ body:not(.vertical-mode) .read-progress{display:none}
 .chapter-button:hover {
   box-shadow: 0 0 10px rgba(199,27,27,0.5);
   transition: all var(--anim-speed) ease;
-}
-
-/* === Animații globale === */
-body {
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.chapter-button {
-  opacity: 0;
-  transform: translateY(8px);
-  animation: fadeInUp 0.4s ease forwards;
-}
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Elimină tranzițiile dacă animațiile sunt dezactivate */
