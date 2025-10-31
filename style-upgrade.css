@@ -5,7 +5,10 @@
   --accent: #c71b1b;
   --muted: rgba(255,255,255,.55);
 }
-html,body{background: radial-gradient(1200px 800px at 20% 20%, #101318, #0b0d10 60%, #090b0e 100%);background-size: 300% 300%;animation: bgShift 30s ease infinite;}
+body:not(.theme-light):not(.theme-sepia):not(.theme-sunset){background: radial-gradient(1200px 800px at 20% 20%, #101318, #0b0d10 60%, #090b0e 100%);background-size: 300% 300%;animation: bgShift 30s ease infinite;}
+body.theme-light{background: radial-gradient(1600px 900px at 20% 20%, #ffffff, #f5f5f2 65%, #ebe9e1 100%);color:#16181d;}
+body.theme-sepia{background: radial-gradient(1400px 820px at 20% 20%, #f8edd7, #f1e2c5 60%, #e1cfab 100%);color:#4b3823;}
+body.theme-sunset{background: radial-gradient(1400px 820px at 20% 20%, #1e1727, #15121c 60%, #0f0c16 100%);color:#f4ecff;}
 @keyframes bgShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 
 /* 2) titluri cu glow subtil */
@@ -41,6 +44,24 @@ html,body{background: radial-gradient(1200px 800px at 20% 20%, #101318, #0b0d10 
   color: rgba(255,255,255,.6);
   background: rgba(255,255,255,.06);
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+}
+
+body.theme-light .slide-menu__link.read{
+  color: rgba(22,24,29,.55);
+  background: rgba(22,24,29,.08);
+  box-shadow: inset 0 0 0 1px rgba(22,24,29,.08);
+}
+
+body.theme-sepia .slide-menu__link.read{
+  color: rgba(75,56,35,.55);
+  background: rgba(75,56,35,.12);
+  box-shadow: inset 0 0 0 1px rgba(75,56,35,.12);
+}
+
+body.theme-sunset .slide-menu__link.read{
+  color: rgba(244,236,255,.7);
+  background: rgba(232,105,159,.12);
+  box-shadow: inset 0 0 0 1px rgba(232,105,159,.22);
 }
 
 /* 5) meniul – intrare mai „premium” + scrollbar fix */
@@ -79,16 +100,9 @@ body:not(.vertical-mode) .read-progress{display:none}
 [data-brightness="bright"]{filter:brightness(1.15)}
 
 /* 10) butoane mici în setări (se potrivesc cu stilul tău) */
-.reader-setting__pill{
-  background: rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.12);
-  padding:6px 10px;border-radius:999px;
-  font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
-}
-.reader-setting__pill[aria-pressed="true"]{
-  background: rgba(199,27,27,.4);
-  border-color: rgba(199,27,27,.6);
-}
+.reader-setting__pill{transition: transform .2s ease, box-shadow .2s ease;}
+.reader-setting__pill:hover{transform: translateY(-1px);box-shadow:0 6px 12px rgba(199,27,27,.25);}
+.reader-setting__pill[aria-pressed="true"]{box-shadow:0 8px 18px rgba(199,27,27,.35);}
 
 /* === Animații elegante === */
 :root {
@@ -114,117 +128,3 @@ body:not(.vertical-mode) .read-progress{display:none}
 
 /* Când animațiile sunt dezactivate */
 .no-animations * {
-  transition: none !important;
-  animation: none !important;
-}
-
-/* === Animații globale === */
-body {
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.chapter-button {
-  opacity: 0;
-  transform: translateY(8px);
-  animation: fadeInUp 0.4s ease forwards;
-}
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Elimină tranzițiile dacă animațiile sunt dezactivate */
-.no-animations * {
-  animation: none !important;
-  transition: none !important;
-}
-
-/* Meniu plutitor la modul citire */
-.reader-menu-btn {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  background: rgba(199,27,27,0.85);
-  color: #fff;
-  padding: 10px 14px;
-  border-radius: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  z-index: 1000;
-  transition: all 0.3s ease;
-}
-.reader-menu-btn:hover {
-  background: rgba(255,40,40,0.9);
-  transform: scale(1.05);
-}
-
-/* === Buton meniu plutitor === */
-.reader-menu-btn {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  background: rgba(199,27,27,0.9);
-  color: #fff;
-  border: none;
-  padding: 10px 16px;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 10px;
-  cursor: pointer;
-  z-index: 9999;
-  transition: all 0.25s ease;
-}
-.reader-menu-btn:hover {
-  background: rgba(255,40,40,0.9);
-  transform: scale(1.05);
-}
-
-/* === Overlay meniu === */
-.reader-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(6px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-  z-index: 9998;
-}
-.reader-overlay.open {
-  opacity: 1;
-  pointer-events: all;
-}
-.reader-menu {
-  background: rgba(30,30,30,0.95);
-  padding: 25px 30px;
-  border-radius: 14px;
-  text-align: center;
-  color: #fff;
-  width: 260px;
-  animation: menuSlide 0.3s ease forwards;
-}
-.reader-menu h3 {
-  margin-top: 0;
-  color: #c71b1b;
-}
-.reader-menu a {
-  color: #fff;
-  text-decoration: none;
-  display: block;
-  margin: 10px 0;
-  font-weight: 600;
-}
-.reader-menu hr {
-  border: 0;
-  border-top: 1px solid rgba(255,255,255,0.2);
-  margin: 15px 0;
-}
-
-@keyframes menuSlide {
-  from { transform: translateY(-10px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
